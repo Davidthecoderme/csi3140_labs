@@ -1,1 +1,23 @@
+.header{
+    text-align: center;
+    color:black;
+    font-size: 21px;
 
+    
+}
+
+.space{
+    margin-left: 80%;
+    font-weight: normal;
+}
+
+
+.format-style{
+    justify-content: space-between;
+    padding-left: 150px;
+    padding-right: 150px;
+    
+}
+.his-space{
+    margin-left: 70%;
+}
