@@ -3,35 +3,41 @@
 
 class yatzyGame {
     constructor() {
-        this.resetGame();
+        this.rollNumber = 0;
+        this.diceValues = [0, 0, 0, 0, 0];
+        this.keepDice = [false, false, false, false, false];
+        this.totalScore = 0;
     }
 
     resetGame() {
         this.rollNumber = 0;
         this.diceValues = [0, 0, 0, 0, 0];
         this.keepDice = [false, false, false, false, false];
+        this.totalScore = 0;
     }
 
     rollDice() {
-        if (this.rollNumber >= 3) {
-            console.log("No rolls left for this turn.");
-            return;
-        }
+        
 
         for (let i = 0; i < this.diceValues.length; i++) {
             if (!this.keepDice[i]) {
                 this.diceValues[i] = rollDie();
+                this.totalScore += this.diceValues[i];
             }
         }
 
         this.rollNumber++;
+        
     }
 
-    toggleKeep(index) {
-        if (index >= 0 && index < this.diceValues.length) {
-            this.keepDice[index] = !this.keepDice[index];
+    totalScore() { 
+        for (let j = 0; j < this.diceValues.length; j++) { 
+            this.totalScore += this.diceValues[j];
         }
+        return this.totalScore;
     }
+
+    
 
     getGameState() {
         return {
@@ -42,10 +48,5 @@ class yatzyGame {
     }
 }
 
-const game = new yatzyGame();
 
-document.getElementById('rollDiceButton').addEventListener('click', () => {
-    game.rollDice();
-    const state = game.getGameState();
-    document.getElementById('diceResults').innerText = `Roll: ${state.rollNumber}, Dice: ${state.diceValues.join(', ')}, Keep: ${state.keepDice.join(', ')}`;
-});
+
