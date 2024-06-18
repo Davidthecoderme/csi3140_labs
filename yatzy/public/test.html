@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatzy Test</title>
+    <script src="assets/dice.js"></script>
+    <script src="assets/yatzy_game.js"></script>
+</head>
+<body>
+    <h1>Yatzy Game Test</h1>
+    <div>
+        <h2>Player 1</h2>
+        <button id="rollDicePlayer1">Roll Dice</button>
+        <div id="diceValuesPlayer1"></div>
+        <div id="gameStatePlayer1"></div>
+        <div id="totalScorePlayer1"></div>
+    </div>
+    <div>
+        <h2>Player 2</h2>
+        <button id="rollDicePlayer2">Roll Dice</button>
+        <div id="diceValuesPlayer2"></div>
+        <div id="gameStatePlayer2"></div>
+        <div id="totalScorePlayer2"></div>
+    </div>
+    <button id="rollDiceButton">Roll Dice</button>
+    <button id="resetGame">Reset game</button>
+    <div id="diceResults"></div>
+    <div id="winner"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gamePlayer1= new yatzyGame();
+            const gamePlayer2 = new yatzyGame();
+
+            let currentPlayer = 1; 
+    
+            document.getElementById('rollDicePlayer1').addEventListener('click', () => {
+                if (currentPlayer === 1 && gamePlayer1.rollNumber < 3) {
+                    gamePlayer1.rollDice();
+                    updateDisplay(gamePlayer1, 'Player 1');
+                    if (gamePlayer1.rollNumber === 3) {
+                        currentPlayer = 2;
+                        alert('Player 1 turn is over. Player 2, it\'s your turn.');
+                    }
+                }
+            });
+
+            document.getElementById('rollDicePlayer2').addEventListener('click', () => {
+                if (currentPlayer === 2 && gamePlayer2.rollNumber < 3) {
+                    gamePlayer2.rollDice();
+                    updateDisplay(gamePlayer2, 'Player 2');
+                    if (gamePlayer2.rollNumber === 3) {
+                        determineWinner();
+                    }
+                }
+            });
+
+            document.getElementById('resetGame').addEventListener('click', () => {
+                gamePlayer1.resetGame();
+                gamePlayer2.resetGame();
+                currentPlayer = 1;
+                updateDisplay(gamePlayer1, 'Player 1');
+                updateDisplay(gamePlayer2, 'Player 2');
+                document.getElementById('winner').textContent = '';
+
+            });
+
+
+            function updateDisplay(game, player) {
+                if (player === 'Player 1') {
+                    document.getElementById('diceValuesPlayer1').textContent = `Dice Values: ${game.diceValues.join(', ')}`;
+                    document.getElementById('gameStatePlayer1').textContent = `Roll Number: ${game.rollNumber}`;
+                    document.getElementById('totalScorePlayer1').textContent = `Total Score: ${calculateTotalScore(game)}`;
+                } else if (player === 'Player 2') {
+                    document.getElementById('diceValuesPlayer2').textContent = `Dice Values: ${game.diceValues.join(', ')}`;
+                    document.getElementById('gameStatePlayer2').textContent = `Roll Number: ${game.rollNumber}`;
+                    document.getElementById('totalScorePlayer2').textContent = `Total Score: ${calculateTotalScore(game)}`;
+                }
+            }
+
+            function calculateTotalScore(game) {
+                // Example calculation, you can expand this based on your scoring rules
+                
+                return game.totalScore;
+            }
+
+            function determineWinner() {
+                const totalScorePlayer1 = calculateTotalScore(gamePlayer1);
+                const totalScorePlayer2 = calculateTotalScore(gamePlayer2);
+
+                let winnerText = 'It\'s a tie!';
+                if (totalScorePlayer1 > totalScorePlayer2) {
+                    winnerText = 'Player 1 wins!';
+                } else if (totalScorePlayer2 > totalScorePlayer1) {
+                    winnerText = 'Player 2 wins!';
+                }
+                document.getElementById('winner').textContent = winnerText;
+            }
+    
+            // Example of using the YatzyEngine for scoring (can be expanded)
+            updateDisplay(gamePlayer1, 'Player 1');
+            updateDisplay(gamePlayer2, 'Player 2');
+        });
+    </script>
+    
+</body>
+</html>
+
