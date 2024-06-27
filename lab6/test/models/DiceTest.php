@@ -1,7 +1,8 @@
 <?php
+
 namespace Yatzy\Test;
 
-use Yatzy\Dice;
+use Dice;
 use PHPUnit\Framework\TestCase;
 
 class DiceTest extends TestCase
